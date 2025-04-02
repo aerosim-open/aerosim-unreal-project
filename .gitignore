@@ -1,0 +1,17 @@
+*.sln
+/Saved
+/Content
+/.vs
+/.vscode
+/.vsconfig
+/Intermediate
+/Binaries
+/DerivedDataCache
+/Plugins
+*.log
+
+# Packaged sim binaries
+package-*
+
+# PixelStreaming get_ps_server.bat/sh scripts pulled by Unreal
+Samples
