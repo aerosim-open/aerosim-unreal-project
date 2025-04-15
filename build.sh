@@ -43,7 +43,7 @@ for i in "$@"; do
             echo "   help         Show this help and quit."
             echo "IDS=\"{comma-separated list of renderer IDs for launching multiple renderer instances}\""
             echo
-            exit 1            
+            exit 1
             ;;
         *)
             # Pass extra arguments to Unreal
@@ -103,8 +103,8 @@ BUILD_CMD="$AEROSIM_UNREAL_ENGINE_ROOT/Engine/Build/BatchFiles/Linux/Build.sh Ae
 # Function to find an available terminal emulator
 find_terminal_emulator() {
     # List of common terminal emulators to try
-    terminals=("gnome-terminal" "konsole" "xfce4-terminal" "xterm")
-    
+    terminals=("alacritty" "gnome-terminal" "konsole" "xfce4-terminal" "xterm")
+
     # First check if x-terminal-emulator exists and what it points to
     if command -v "x-terminal-emulator" >/dev/null 2>&1; then
         # Try to determine what x-terminal-emulator points to
@@ -133,7 +133,7 @@ find_terminal_emulator() {
         echo "x-terminal-emulator"
         return 0
     fi
-    
+
     # Try each terminal until one is found
     for term in "${terminals[@]}"; do
         if command -v "$term" >/dev/null 2>&1; then
@@ -141,7 +141,7 @@ find_terminal_emulator() {
             return 0
         fi
     done
-    
+
     return 1
 }
 
@@ -151,27 +151,27 @@ launch_terminal() {
     local instance_id="$2"
     local terminal
     local escaped_cmd
-    
+
     # Ensure critical environment variables are preserved
     local env_vars=""
     if [ -n "$AEROSIM_CESIUM_TOKEN" ]; then
         env_vars="AEROSIM_CESIUM_TOKEN='$AEROSIM_CESIUM_TOKEN' "
     fi
-    
+
     # Add other important environment variables here if needed
     if [ -n "$AEROSIM_UNREAL_ENGINE_ROOT" ]; then
         env_vars+="AEROSIM_UNREAL_ENGINE_ROOT='$AEROSIM_UNREAL_ENGINE_ROOT' "
     fi
-    
+
     # Modify command to include a pause after execution and preserve environment variables
     # This ensures the terminal stays open to show errors
     modified_cmd="${env_vars}$cmd; exit_code=\$?; echo ''; if [ \$exit_code -ne 0 ]; then echo 'Command failed with exit code \$exit_code. Press Enter to close...'; else echo 'Command completed successfully. Press Enter to close...'; fi; read -p ''"
-    
+
     # Escape the command for shell interpretation
     escaped_cmd=$(printf "%q " "$modified_cmd")
-    
+
     terminal=$(find_terminal_emulator)
-    
+
     if [ -n "$terminal" ]; then
         echo "Using terminal: $terminal"
         case "$terminal" in
@@ -194,6 +194,9 @@ launch_terminal() {
             "x-terminal-emulator")
                 # If we couldn't determine the actual terminal, try the most compatible approach
                 "$terminal" -e bash -c "$modified_cmd" &
+                ;;
+            "alacritty")
+                "$terminal" --title="$title $instance_id" -e bash -c "$modified_cmd" &
                 ;;
             *)
                 # Default fallback for xterm and others
