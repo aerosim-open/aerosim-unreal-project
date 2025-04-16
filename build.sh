@@ -90,7 +90,7 @@ check_and_pause() {
 if [ ! -d ${CESIUM_SOURCE_PATH} ]; then
     echo "Downloading CesiumForUnreal $CESIUM_VERSION..."
     pushd Plugins > /dev/null
-    curl --retry 5 --retry-max-time 120 -L -o CesiumPluginForUnreal.zip https://github.com/CesiumGS/cesium-unreal/releases/download/${CESIUM_VERSION}/CesiumForUnreal-53-${CESIUM_VERSION}.zip
+    curl --retry 5 --retry-max-time 120 -L -o CesiumPluginForUnreal.zip https://github.com/CesiumGS/cesium-unreal/releases/download/${CESIUM_VERSION}/CesiumForUnreal-55-${CESIUM_VERSION}.zip
     check_and_pause
     unzip -qq CesiumPluginForUnreal.zip
     check_and_pause

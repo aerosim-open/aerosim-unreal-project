@@ -28,7 +28,7 @@ echo %PACKAGE_CONFIG%
 if not exist %CESIUM_SOURCE_PATH% (
     echo Downloading CesiumForUnreal %CESIUM_VERSION%...
     pushd Plugins
-    curl --retry 5 --retry-max-time 120 -L -o CesiumPluginForUnreal.zip https://github.com/CesiumGS/cesium-unreal/releases/download/%CESIUM_VERSION%/CesiumForUnreal-53-%CESIUM_VERSION%.zip && tar -xf CesiumPluginForUnreal.zip && del CesiumPluginForUnreal.zip
+    curl --retry 5 --retry-max-time 120 -L -o CesiumPluginForUnreal.zip https://github.com/CesiumGS/cesium-unreal/releases/download/%CESIUM_VERSION%/CesiumForUnreal-55-%CESIUM_VERSION%.zip && tar -xf CesiumPluginForUnreal.zip && del CesiumPluginForUnreal.zip
     popd
 )
 
